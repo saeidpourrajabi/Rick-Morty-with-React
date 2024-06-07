@@ -1,9 +1,11 @@
 import { EyeIcon } from "@heroicons/react/16/solid";
 
-function CharacterList({ characters }) {
+function CharacterList({ characters , isLoading }) {
   return (
     <div className="flex flex-col p-2 gap-y-3">
-      {characters.map((item) => (
+      {
+        isLoading ? (<p className="text-white text-2xl font-bold">please wait loading data ...</p>) : 
+      characters.map((item) => (
         <Character key={item.id} item={item} />
       ))}
     </div>
@@ -14,7 +16,7 @@ export default CharacterList;
 
 function Character({ item }) {
   return (
-    <div className="bg-slate-700 p-1 rounded-xl flex text-white items-center gap-x-3 hover:bg-slate-500">
+    <div className="bg-slate-700 p-1 rounded-xl flex text-white items-center gap-x-3 hover:bg-slate-500 justify-between">
       <div>
         <img className="w-12 rounded-lg" src={item.image} alt={item.name} />
       </div>
