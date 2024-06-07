@@ -1,9 +1,25 @@
 import { ArrowUpCircleIcon } from "@heroicons/react/24/outline";
-import { character, episodes } from "../../data/data";
+import { episodes } from "../../data/data";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-function CharacterDetail() {
+function CharacterDetail({ selectedId }) {
+  const [character, setCharacter] = useState(null);
+
+  useEffect(() => {
+    if (selectedId)
+      axios
+        .get(`https://rickandmortyapi.com/api/character/${selectedId}`)
+        .then(({ data }) => setCharacter(data))
+        .catch((err) => toast.error(err.message));
+  }, [selectedId]);
+
+  if (!character || !selectedId)
+    return <p className="text-white">please select a character.</p>;
+
   return (
-    <div className="flex flex-col flex-1">
+    <div className="flex flex-col flex-1 col-span-1 ">
       <div className="flex bg-slate-700 m-3  p-1 rounded-xl gap-x-4">
         <img
           className="w-36 rounded-lg"
