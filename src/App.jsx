@@ -10,6 +10,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
+  const [favorites , setFavorites] = useState([]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -30,10 +31,16 @@ function App() {
     setSelectedId((prevId) => (prevId === id ? null : id));
   };
 
+  const handleAddFavorites=(char)=>{
+    setFavorites((prevFav)=>[...prevFav,char])
+  }
+
+  const isAddToFavorite =favorites.map((fav)=>fav.id).includes(selectedId);
+
   return (
     <div className="bg-slate-800 grid grid-cols-2">
       <Toaster />
-      <Navbar numResult={characters.length} query={query} setQuery={setQuery} />
+      <Navbar numResult={characters.length} query={query} setQuery={setQuery} numOfFavorites={favorites.length}/>
       <Main characters={characters}>
         <CharacterList
           characters={characters}
@@ -41,7 +48,7 @@ function App() {
           onSelectCharacter={handleSelectCharacter}
           selectedId={selectedId}
         />
-        <CharacterDetail selectedId={selectedId} />
+        <CharacterDetail selectedId={selectedId} onAddFavorets={handleAddFavorites} isAddToFavorite={isAddToFavorite} />
       </Main>
     </div>
   );

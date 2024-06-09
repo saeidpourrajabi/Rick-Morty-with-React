@@ -1,17 +1,26 @@
 import { ArrowUpCircleIcon } from "@heroicons/react/24/outline";
-import { episodes } from "../../data/data";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-function CharacterDetail({ selectedId }) {
+function CharacterDetail({ selectedId , onAddFavorets , isAddToFavorite }) {
   const [character, setCharacter] = useState(null);
+  const [episodes, setEpisodes] = useState([]);
 
   useEffect(() => {
     if (selectedId)
       axios
         .get(`https://rickandmortyapi.com/api/character/${selectedId}`)
-        .then(({ data }) => setCharacter(data))
+        .then(({ data }) => {
+          setCharacter(data);
+          const episodesId = data.episode.map((e) => e.split("/").at(-1));
+          axios
+            .get(`https://rickandmortyapi.com/api/episode/${episodesId}`)
+            .then(({ data: episodesData }) => {
+              setEpisodes([episodesData].flat());
+            })
+            .catch((err) => toast.error(err.message));
+        })
         .catch((err) => toast.error(err.message));
   }, [selectedId]);
 
@@ -42,9 +51,10 @@ function CharacterDetail({ selectedId }) {
           <div className="text-white">
             <p>{character.location.name}</p>
           </div>
-          <div className="flex p-1 bg-slate-300 rounded-xl justify-center">
-            <button>Add To Favorites</button>
-          </div>
+          {isAddToFavorite ? (<p className="text-slate-400 text-sm font-thin">Already Added To Favorites ✅</p>) :( <div className="flex p-1 bg-slate-300 rounded-xl justify-center">
+            <button onClick={()=>onAddFavorets(character)}>Add To Favorites</button>
+          </div>)
+          }
         </div>
       </div>
       <div className=" bg-slate-700 m-3  p-1 rounded-xl">
@@ -54,7 +64,7 @@ function CharacterDetail({ selectedId }) {
             <ArrowUpCircleIcon className="w-7" />
           </button>
         </div>
-        <ul className="">
+        <ul>
           {episodes.map((e, i) => (
             <li key={e.id} className="flex justify-between p-2">
               <div className="text-white">
