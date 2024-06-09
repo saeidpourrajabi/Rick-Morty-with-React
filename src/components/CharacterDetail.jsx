@@ -1,7 +1,7 @@
 import { ArrowUpCircleIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
-import axios, { all } from "axios";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 function CharacterDetail({ selectedId, onAddFavorets, isAddToFavorite }) {
   const [character, setCharacter] = useState(null);
