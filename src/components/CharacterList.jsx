@@ -14,12 +14,15 @@ function CharacterList({
         </p>
       ) : (
         characters.map((item) => (
-          <Character
-            key={item.id}
-            item={item}
-            onSelectCharacter={onSelectCharacter}
-            selectedId={selectedId}
-          />
+          <Character key={item.id} item={item}>
+            <button onClick={() => onSelectCharacter(item.id)}>
+              {selectedId === item.id ? (
+                <EyeSlashIcon className="w-5 text-red-500" />
+              ) : (
+                <EyeIcon className="w-5 text-red-500" />
+              )}
+            </button>
+          </Character>
         ))
       )}
     </div>
@@ -28,9 +31,9 @@ function CharacterList({
 
 export default CharacterList;
 
-function Character({ item, onSelectCharacter, selectedId }) {
+export function Character({ item, children }) {
   return (
-    <div className="bg-slate-700 p-1 rounded-xl flex text-white items-center gap-x-3 hover:bg-slate-500 justify-between">
+    <div className="bg-slate-700 p-1 rounded-xl flex text-white items-center gap-x-3 m-2 hover:bg-slate-500 justify-between">
       <div>
         <img className="w-12 rounded-lg" src={item.image} alt={item.name} />
       </div>
@@ -38,13 +41,7 @@ function Character({ item, onSelectCharacter, selectedId }) {
         <CharacterName item={item} />
         <CharacterInfo item={item} />
       </div>
-      <button onClick={() => onSelectCharacter(item.id)}>
-        {selectedId === item.id ? (
-          <EyeSlashIcon className="w-5 text-red-500" />
-        ) : (
-          <EyeIcon className="w-5 text-red-500" />
-        )}
-      </button>
+      {children}
     </div>
   );
 }

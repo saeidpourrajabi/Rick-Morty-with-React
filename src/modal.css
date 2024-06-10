@@ -1,0 +1,43 @@
+.backdrop {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(63, 69, 76, 0.8);
+  }
+
+  .modal {
+    width: 50%;
+    min-height: 250px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(30, 40, 50);
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 1px 1px 50px rgb(158, 158, 220);
+  }
+  
+  .modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgb(160, 160, 188);
+  }
+
+
+  .icon {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+  
+  .modal__header .close {
+    color: red;
+  }
+  
+  .modal__header .title {
+    color: rgb(255, 255, 255);
+  }
